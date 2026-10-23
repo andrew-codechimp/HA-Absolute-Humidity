@@ -5,7 +5,6 @@
 [![Downloads][download-latest-shield]]()
 [![HACS Installs][hacs-installs-shield]]()
 [![License][license-shield]](LICENSE)
-[![hacs][hacsbadge]][hacs]
 
 Absolute Humidity Helpers for Home Assistant
 
