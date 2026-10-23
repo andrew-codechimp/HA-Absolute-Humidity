@@ -18,12 +18,13 @@ from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
     ATTR_DEVICE_CLASS,
     ATTR_UNIT_OF_MEASUREMENT,
+    CONF_DEVICE_ID,
     CONF_NAME,
     PERCENTAGE,
     UnitOfTemperature,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import DEFAULT_NAME, HUMIDITY_ENTITY_ID, TEMPERATURE_ENTITY_ID
 
@@ -69,6 +70,50 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         "custom_components.absolute_humidity.async_setup_entry", return_value=None
     ) as mock_setup:
         yield mock_setup
+
+
+@pytest.fixture
+def selected_device(
+    hass: HomeAssistant,
+    device_registry: dr.DeviceRegistry,
+    request: pytest.FixtureRequest,
+) -> dr.AnyDeviceEntry:
+    """Create an independently owned main or child device for the helper."""
+    source_entry = MockConfigEntry(domain="test")
+    source_entry.add_to_hass(hass)
+    device = device_registry.async_get_or_create(
+        config_entry_id=source_entry.entry_id,
+        identifiers={("test", "selected-device")},
+        name="Environmental monitor",
+    )
+    if getattr(request, "param", "main") == "child":
+        return device_registry.async_get_or_create_child(
+            config_entry_id=source_entry.entry_id,
+            parent_device_id=device.id,
+            identifiers={("test", "selected-child")},
+            name="Room sensor",
+        )
+    return device
+
+
+@pytest.fixture
+def linked_config_entry(
+    mock_config_entry: MockConfigEntry, selected_device: dr.AnyDeviceEntry
+) -> MockConfigEntry:
+    """Configure the optional device link before setting up the helper."""
+    return MockConfigEntry(
+        domain=DOMAIN,
+        entry_id=mock_config_entry.entry_id,
+        title=mock_config_entry.title,
+        data={},
+        options={**mock_config_entry.options, CONF_DEVICE_ID: selected_device.id},
+    )
+
+
+@pytest.fixture
+def invalid_device_id() -> str:
+    """Represent a device which no longer exists."""
+    return "missing-device"
 
 
 @pytest.fixture

@@ -12,6 +12,8 @@ Absolute Humidity Helpers for Home Assistant **2026.11.0.dev0**
 
 Creates a helper that watches a temperature and relative humidity sensor and calculates absolute humidity in **g/m³**.
 
+Optionally select a device during setup or in the helper's options to link the sensor to it. Leave the device empty for a standalone helper. You can change or clear this selection later without replacing the sensor. If the linked device is removed or no longer exists, the helper continues calculating without a device link. Its saved selection remains until you change or clear it in options.
+
 
 ### Attributes
 

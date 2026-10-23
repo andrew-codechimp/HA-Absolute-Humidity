@@ -9,6 +9,7 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
+    CONF_DEVICE_ID,
     PERCENTAGE,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
@@ -16,6 +17,7 @@ from homeassistant.const import (
     UnitOfTemperature,
 )
 from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.util.unit_conversion import TemperatureConverter
@@ -67,7 +69,7 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up an absolute humidity sensor."""
-    async_add_entities([AbsoluteHumiditySensor(entry)])
+    async_add_entities([AbsoluteHumiditySensor(hass, entry)])
 
 
 class AbsoluteHumiditySensor(SensorEntity):
@@ -80,10 +82,14 @@ class AbsoluteHumiditySensor(SensorEntity):
     _attr_suggested_display_precision = 2
     _attr_translation_key = "absolute_humidity"
 
-    def __init__(self, entry: AbsoluteHumidityConfigEntry) -> None:
+    def __init__(self, hass: HomeAssistant, entry: AbsoluteHumidityConfigEntry) -> None:
         """Initialize the helper's identity and source references."""
         self._attr_name = entry.title
         self._attr_unique_id = entry.entry_id
+        if device_id := entry.options.get(CONF_DEVICE_ID):
+            self.device_entry = dr.async_get(hass).async_get(
+                device_id, include_composite_devices=False
+            )
         self._temperature_entity_id = entry.runtime_data[CONF_TEMPERATURE_ENTITY_ID]
         self._humidity_entity_id = entry.runtime_data[CONF_HUMIDITY_ENTITY_ID]
 

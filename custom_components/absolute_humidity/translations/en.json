@@ -7,9 +7,16 @@
         "data": {
           "name": "Name",
           "temperature_entity_id": "Temperature sensor",
-          "humidity_entity_id": "Humidity sensor"
+          "humidity_entity_id": "Humidity sensor",
+          "device_id": "Device"
+        },
+        "data_description": {
+          "device_id": "Optionally select a device to link this sensor to. Leave empty to keep it standalone."
         }
       }
+    },
+    "error": {
+      "invalid_device": "The selected device no longer exists. Select another device or leave it empty."
     }
   },
   "options": {
@@ -18,9 +25,16 @@
         "title": "Absolute Humidity",
         "data": {
           "temperature_entity_id": "Temperature sensor",
-          "humidity_entity_id": "Humidity sensor"
+          "humidity_entity_id": "Humidity sensor",
+          "device_id": "Device"
+        },
+        "data_description": {
+          "device_id": "Optionally select a device to link this sensor to. Leave empty to keep it standalone."
         }
       }
+    },
+    "error": {
+      "invalid_device": "The selected device no longer exists. Select another device or leave it empty."
     }
   },
   "entity": {

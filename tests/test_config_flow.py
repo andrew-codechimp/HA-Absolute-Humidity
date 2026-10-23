@@ -3,7 +3,6 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from custom_components.absolute_humidity.config_flow import ConfigFlowHandler
 from custom_components.absolute_humidity.const import (
     CONF_HUMIDITY_ENTITY_ID,
     CONF_TEMPERATURE_ENTITY_ID,
@@ -13,11 +12,13 @@ from pytest_homeassistant.common import MockConfigEntry
 
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.config_entries import SOURCE_USER
-from homeassistant.const import CONF_NAME
+from homeassistant.const import CONF_DEVICE_ID, CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 
-from .const import DEFAULT_NAME, HUMIDITY_ENTITY_ID, TEMPERATURE_ENTITY_ID
+from . import setup_integration
+from .const import DEFAULT_NAME, ENTITY_ID, HUMIDITY_ENTITY_ID, TEMPERATURE_ENTITY_ID
 
 
 async def test_user_flow(hass: HomeAssistant, mock_setup_entry: AsyncMock) -> None:
@@ -45,6 +46,96 @@ async def test_user_flow(hass: HomeAssistant, mock_setup_entry: AsyncMock) -> No
         CONF_HUMIDITY_ENTITY_ID: HUMIDITY_ENTITY_ID,
     }
     mock_setup_entry.assert_awaited_once()
+
+
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_user_device(
+    hass: HomeAssistant, selected_device: dr.AnyDeviceEntry
+) -> None:
+    """Creation accepts and saves an optional existing device."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_NAME: DEFAULT_NAME,
+            CONF_TEMPERATURE_ENTITY_ID: TEMPERATURE_ENTITY_ID,
+            CONF_HUMIDITY_ENTITY_ID: HUMIDITY_ENTITY_ID,
+            CONF_DEVICE_ID: selected_device.id,
+        },
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["options"][CONF_DEVICE_ID] == selected_device.id
+
+
+async def test_user_invalid_device(hass: HomeAssistant, invalid_device_id: str) -> None:
+    """Creation reports an unavailable device before saving."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_NAME: DEFAULT_NAME,
+            CONF_TEMPERATURE_ENTITY_ID: TEMPERATURE_ENTITY_ID,
+            CONF_HUMIDITY_ENTITY_ID: HUMIDITY_ENTITY_ID,
+            CONF_DEVICE_ID: invalid_device_id,
+        },
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": "invalid_device"}
+
+
+async def test_options_invalid_device(
+    hass: HomeAssistant, mock_config_entry: MockConfigEntry, invalid_device_id: str
+) -> None:
+    """Options reject a stale device selection without changing saved options."""
+    mock_config_entry.add_to_hass(hass)
+    original_options = dict(mock_config_entry.options)
+    result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        {
+            CONF_TEMPERATURE_ENTITY_ID: TEMPERATURE_ENTITY_ID,
+            CONF_HUMIDITY_ENTITY_ID: HUMIDITY_ENTITY_ID,
+            CONF_DEVICE_ID: invalid_device_id,
+        },
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": "invalid_device"}
+    assert mock_config_entry.options == original_options
+
+
+@pytest.mark.usefixtures("source_sensors")
+async def test_options_device_link(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    selected_device: dr.AnyDeviceEntry,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Options attach and clear a device while preserving the sensor identity."""
+    await setup_integration(hass, mock_config_entry)
+    original_id = entity_registry.async_get(ENTITY_ID).id
+    sources = {
+        CONF_TEMPERATURE_ENTITY_ID: TEMPERATURE_ENTITY_ID,
+        CONF_HUMIDITY_ENTITY_ID: HUMIDITY_ENTITY_ID,
+    }
+    result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
+    await hass.config_entries.options.async_configure(
+        result["flow_id"], {**sources, CONF_DEVICE_ID: selected_device.id}
+    )
+    await hass.async_block_till_done()
+    assert entity_registry.async_get(ENTITY_ID).device_id == selected_device.id
+    assert entity_registry.async_get(ENTITY_ID).id == original_id
+
+    result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
+    await hass.config_entries.options.async_configure(result["flow_id"], sources)
+    await hass.async_block_till_done()
+    assert CONF_DEVICE_ID not in mock_config_entry.options
+    assert entity_registry.async_get(ENTITY_ID).device_id is None
+    assert entity_registry.async_get(ENTITY_ID).id == original_id
 
 
 @pytest.mark.parametrize("language", ["en", "fr"])

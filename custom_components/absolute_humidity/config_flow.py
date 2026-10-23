@@ -6,11 +6,12 @@ from typing import Any, cast
 import probatio
 
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
-from homeassistant.const import CONF_NAME
-from homeassistant.helpers import selector, translation
+from homeassistant.const import CONF_DEVICE_ID, CONF_NAME
+from homeassistant.helpers import device_registry as dr, selector, translation
 from homeassistant.helpers.schema_config_entry_flow import (
     SchemaCommonFlowHandler,
     SchemaConfigFlowHandler,
+    SchemaFlowError,
     SchemaFlowFormStep,
 )
 
@@ -32,8 +33,25 @@ OPTIONS_SCHEMA = probatio.Schema(
                 domain=SENSOR_DOMAIN, device_class=SensorDeviceClass.HUMIDITY
             )
         ),
+        probatio.Optional(CONF_DEVICE_ID): selector.DeviceSelector(),
     }
 )
+
+
+async def async_validate_input(
+    handler: SchemaCommonFlowHandler, user_input: dict[str, Any]
+) -> dict[str, Any]:
+    """Accept an optional link to an existing main or child device."""
+    if not (device_id := user_input.get(CONF_DEVICE_ID)):
+        user_input.pop(CONF_DEVICE_ID, None)
+    elif (
+        dr.async_get(handler.parent_handler.hass).async_get(
+            device_id, include_composite_devices=False
+        )
+        is None
+    ):
+        raise SchemaFlowError("invalid_device")
+    return user_input
 
 
 async def async_config_schema(handler: SchemaCommonFlowHandler) -> probatio.Schema:
@@ -57,8 +75,16 @@ async def async_config_schema(handler: SchemaCommonFlowHandler) -> probatio.Sche
 class ConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
     """Handle creation and configuration of absolute humidity helpers."""
 
-    config_flow = {"user": SchemaFlowFormStep(async_config_schema)}
-    options_flow = {"init": SchemaFlowFormStep(OPTIONS_SCHEMA)}
+    config_flow = {
+        "user": SchemaFlowFormStep(
+            async_config_schema, validate_user_input=async_validate_input
+        )
+    }
+    options_flow = {
+        "init": SchemaFlowFormStep(
+            OPTIONS_SCHEMA, validate_user_input=async_validate_input
+        )
+    }
     options_flow_reloads = True
 
     def async_config_entry_title(self, options: Mapping[str, Any]) -> str:

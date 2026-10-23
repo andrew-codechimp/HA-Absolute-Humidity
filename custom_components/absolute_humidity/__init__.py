@@ -13,7 +13,10 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import __version__ as HA_VERSION  # noqa: N812
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryError
-from homeassistant.helpers import config_validation as cv, entity_registry as er
+from homeassistant.helpers import (
+    config_validation as cv,
+    entity_registry as er,
+)
 from homeassistant.helpers.helper_integration import async_handle_source_entity_changes
 from homeassistant.helpers.typing import ConfigType
 
@@ -79,10 +82,15 @@ async def async_setup_entry(
                 ),
                 source_device_id=None,
                 source_entity_id_or_uuid=entry.options[key],
+                source_entity_removed=_async_source_removed,
             )
         )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+
+async def _async_source_removed() -> None:
+    """Keep the separately selected device link when a source is removed."""
 
 
 @callback
