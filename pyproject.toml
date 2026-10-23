@@ -29,7 +29,7 @@ Changelog = "https://github.com/andrew-codechimp/HA-Absolute-Humidity/releases"
 dev = [
     "aiodns",
     "colorlog",
-    "homeassistant==2026.10.0",
+    "homeassistant==2026.11.0dev0",
     "mypy",
     "pycares",
     "pygments",
@@ -124,7 +124,6 @@ combine-as-imports = true
 "homeassistant.helpers.device_registry" = "dr"
 "homeassistant.helpers.entity_registry" = "er"
 "homeassistant.helpers.issue_registry" = "ir"
-voluptuous = "vol"
 
 [tool.mypy]
 # Specify the target platform details in config, so your developers are

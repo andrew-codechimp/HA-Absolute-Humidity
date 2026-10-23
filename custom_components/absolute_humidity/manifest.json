@@ -1,0 +1,15 @@
+{
+    "domain": "absolute_humidity",
+    "name": "Absolute humidity",
+    "categories": [ "helpers", "sensors.temperature_humidity" ],
+    "codeowners": [
+        "@andrew-codechimp"
+    ],
+    "config_flow": true,
+    "documentation": "https://github.com/andrew-codechimp/HA-Absolute-Humidity",
+    "integration_type": "helper",
+    "iot_class": "calculated",
+    "issue_tracker": "https://github.com/andrew-codechimp/HA-Absolute-Humidity/issues",
+    "requirements": [ ],
+    "version": "0.1.0-dev"
+}
