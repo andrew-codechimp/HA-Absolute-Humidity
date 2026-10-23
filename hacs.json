@@ -1,0 +1,7 @@
+{
+    "name": "Absolute Humidity",
+    "filename": "absolute_humidity.zip",
+    "hide_default_branch": true,
+    "homeassistant": "2026.11.0",
+    "zip_release": true
+}

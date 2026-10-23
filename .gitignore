@@ -1,0 +1,14 @@
+# artifacts
+__pycache__
+.pytest*
+*.egg-info
+*/build/*
+*/dist/*
+.venv
+.ruff_cache
+
+# misc
+.coverage
+coverage.xml
+htmlcov/
+.DS_Store
