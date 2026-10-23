@@ -1,6 +1,6 @@
 {
     "domain": "absolute_humidity",
-    "name": "Absolute humidity",
+    "name": "Absolute Humidity",
     "categories": [ "helpers", "sensors.temperature_humidity" ],
     "codeowners": [
         "@andrew-codechimp"

@@ -1,0 +1,61 @@
+# serializer version: 1
+# name: test_entity[sensor.room_absolute_humidity-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
+    'device_class': None,
+    'device_id': <ANY>,
+    'disabled_by': None,
+    'domain': 'sensor',
+    'entity_category': None,
+    'entity_id': 'sensor.room_absolute_humidity',
+    'has_entity_name': False,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Room absolute humidity',
+    'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
+    }),
+    'original_device_class': <SensorDeviceClass.ABSOLUTE_HUMIDITY: 'absolute_humidity'>,
+    'original_icon': None,
+    'original_name': 'Room absolute humidity',
+    'platform': 'absolute_humidity',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'absolute_humidity',
+    'unique_id': 'absolute-humidity-entry',
+    'unit_of_measurement': <UnitOfDensity.GRAMS_PER_CUBIC_METER: 'g/m³'>,
+  })
+# ---
+# name: test_entity[sensor.room_absolute_humidity-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'comfort': 'comfortable',
+      'condensation_risk': 'low',
+      <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'absolute_humidity',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Room absolute humidity',
+      <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
+      <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfDensity.GRAMS_PER_CUBIC_METER: 'g/m³'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.room_absolute_humidity',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '8.6205794554346',
+  })
+# ---

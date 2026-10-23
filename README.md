@@ -6,11 +6,34 @@
 [![HACS Installs][hacs-installs-shield]]()
 [![License][license-shield]](LICENSE)
 
-Absolute Humidity Helpers for Home Assistant
+Absolute Humidity Helpers for Home Assistant **2026.11.0.dev0**
 
 ## Overview
 
-In development
+Creates a helper that watches a temperature and relative humidity sensor and calculates absolute humidity in **g/m³**.
+
+
+### Attributes
+
+Comfort is assessed from the calculated absolute humidity:
+
+| Attribute | Value | Absolute humidity |
+| --- | --- | --- |
+| `comfort` | `very_dry` | Below 5 g/m³ |
+| `comfort` | `dry` | 5 to below 7 g/m³ |
+| `comfort` | `comfortable` | 7 to below 10 g/m³ |
+| `comfort` | `humid` | 10 through 12 g/m³ |
+| `comfort` | `very_humid` | Above 12 g/m³ |
+
+Condensation risk is also assessed from the calculated absolute humidity:
+
+| Attribute | Value | Absolute humidity |
+| --- | --- | --- |
+| `condensation_risk` | `low` | Below 10.4 g/m³ |
+| `condensation_risk` | `moderate` | 10.4 to below 12.1 g/m³ |
+| `condensation_risk` | `high` | 12.1 g/m³ and above |
+
+Condensation risk is an estimate from air humidity. Actual condensation depends on surface temperature, which these two sources do not measure. The thresholds are simple indicators, rather than a calculation of surface condensation.
 
 _Please :star: this repo if you find it useful_
 
@@ -37,7 +60,7 @@ In the HA UI go to "Configuration" -> "Devices & services" -> "Helpers" click "+
 
 Installation via Marketplace is recommended, but a manual setup is supported.
 
-1. Manually copy custom_components/absolute_humitidy folder from latest release to custom_components folder in your config folder.
+1. Manually copy custom_components/absolute_humidity folder from latest release to custom_components folder in your config folder.
 1. Restart Home Assistant.
 1. In the HA UI go to "Configuration" -> "Devices & services" -> "Helpers" click "+" and select "Absolute Humidity"
 
@@ -45,7 +68,7 @@ Installation via Marketplace is recommended, but a manual setup is supported.
 
 A new Absolute Humidity helper will be available within Settings/Helpers or click the My link to jump straight there
 
-[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=absolute_humitidy)
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=absolute_humidity)
 
 ---
 
@@ -58,4 +81,4 @@ A new Absolute Humidity helper will be available within Settings/Helpers or clic
 [releases-shield]: https://img.shields.io/github/release/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
 [releases]: https://github.com/andrew-codechimp/HA-Absolute-Humidity/releases
 [download-latest-shield]: https://img.shields.io/github/downloads/andrew-codechimp/HA-Absolute-Humidity/latest/total?style=for-the-badge
-[hacs-installs-shield]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Flauwbier.nl%2Fhacs%2Fabsolute_humitidy&style=for-the-badge
+[hacs-installs-shield]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Flauwbier.nl%2Fhacs%2Fabsolute_humidity&style=for-the-badge

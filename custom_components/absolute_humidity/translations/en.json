@@ -1,0 +1,58 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Absolute Humidity",
+        "description": "Calculate absolute humidity from a temperature sensor and a relative humidity sensor.",
+        "data": {
+          "name": "Name",
+          "temperature_entity_id": "Temperature sensor",
+          "humidity_entity_id": "Humidity sensor"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Absolute Humidity",
+        "data": {
+          "temperature_entity_id": "Temperature sensor",
+          "humidity_entity_id": "Humidity sensor"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "absolute_humidity": {
+        "name": "Absolute humidity",
+        "state_attributes": {
+          "comfort": {
+            "name": "Comfort",
+            "state": {
+              "very_dry": "Very dry",
+              "dry": "Dry",
+              "comfortable": "Comfortable",
+              "humid": "Humid",
+              "very_humid": "Very humid"
+            }
+          },
+          "condensation_risk": {
+            "name": "Condensation risk",
+            "state": {
+              "low": "Low",
+              "moderate": "Moderate",
+              "high": "High"
+            }
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "source_entity_not_found": {
+      "message": "The source entity {entity_id} could not be found. Select a replacement source in the helper's options."
+    }
+  }
+}

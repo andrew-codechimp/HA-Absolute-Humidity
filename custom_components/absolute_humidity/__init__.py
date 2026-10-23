@@ -4,18 +4,22 @@ For more details about this integration, please refer to
 https://github.com/andrew-codechimp/HA-Absolute-Humidity
 """
 
-from __future__ import annotations
+from functools import partial
 
 import probatio
 from awesomeversion.awesomeversion import AwesomeVersion
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import __version__ as HA_VERSION  # noqa: N812
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.exceptions import ConfigEntryError
 from homeassistant.helpers import config_validation as cv, entity_registry as er
+from homeassistant.helpers.helper_integration import async_handle_source_entity_changes
 from homeassistant.helpers.typing import ConfigType
 
 from .const import (
+    CONF_HUMIDITY_ENTITY_ID,
+    CONF_TEMPERATURE_ENTITY_ID,
     DOMAIN,
     LOGGER,
     MIN_HA_VERSION,
@@ -23,6 +27,8 @@ from .const import (
 )
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+type AbsoluteHumidityConfigEntry = ConfigEntry[dict[str, str]]
 
 
 async def async_setup(
@@ -43,11 +49,59 @@ async def async_setup(
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_setup_entry(
+    hass: HomeAssistant, entry: AbsoluteHumidityConfigEntry
+) -> bool:
     """Set up from a config entry."""
 
     entity_registry = er.async_get(hass)
+    source_ids: dict[str, str] = {}
+    for key in (CONF_TEMPERATURE_ENTITY_ID, CONF_HUMIDITY_ENTITY_ID):
+        try:
+            source_ids[key] = er.async_validate_entity_id(
+                entity_registry, entry.options[key]
+            )
+        except probatio.Invalid as err:
+            raise ConfigEntryError(
+                translation_domain=DOMAIN,
+                translation_key="source_entity_not_found",
+                translation_placeholders={"entity_id": entry.options[key]},
+            ) from err
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    entry.runtime_data = source_ids
+    for key in source_ids:
+        entry.async_on_unload(
+            async_handle_source_entity_changes(
+                hass,
+                helper_config_entry_id=entry.entry_id,
+                set_source_entity_id_or_uuid=partial(
+                    _async_update_source, hass, entry, key
+                ),
+                source_device_id=None,
+                source_entity_id_or_uuid=entry.options[key],
+            )
+        )
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    return True
+
+
+@callback
+def _async_update_source(
+    hass: HomeAssistant,
+    entry: AbsoluteHumidityConfigEntry,
+    key: str,
+    entity_id: str,
+) -> None:
+    """Update a renamed source and reload its state subscription."""
+    hass.config_entries.async_update_entry(
+        entry, options={**entry.options, key: entity_id}
+    )
+    hass.config_entries.async_schedule_reload(entry.entry_id)
+
+
+async def async_unload_entry(
+    hass: HomeAssistant, entry: AbsoluteHumidityConfigEntry
+) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - custom_components/absolute_humitidy/**
+      - custom_components/absolute_humidity/**
       - tests/**
       - pyproject.toml
       - uv.lock
@@ -15,7 +15,7 @@ on:
     branches:
       - main
     paths:
-      - custom_components/absolute_humitidy/**
+      - custom_components/absolute_humidity/**
       - tests/**
       - pyproject.toml
       - uv.lock
