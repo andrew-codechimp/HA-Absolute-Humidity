@@ -1,5 +1,7 @@
 """Test helper lifecycle and source registry changes."""
 
+from unittest.mock import patch
+
 import pytest
 from custom_components.absolute_humidity.const import (
     CONF_HUMIDITY_ENTITY_ID,
@@ -33,6 +35,21 @@ async def test_unload_and_reload(
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
     assert hass.states.get(ENTITY_ID).attributes["condensation_risk"] == "high"
+
+
+async def test_unload_failure(
+    hass: HomeAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """A failed platform unload exposes a translated config entry error."""
+    await setup_integration(hass, mock_config_entry)
+    with patch(
+        "homeassistant.config_entries.ConfigEntries.async_forward_entry_unload",
+        return_value=False,
+    ):
+        assert not await hass.config_entries.async_unload(mock_config_entry.entry_id)
+    assert mock_config_entry.state is ConfigEntryState.FAILED_UNLOAD
+    assert mock_config_entry.error_reason_translation_domain == "homeassistant"
+    assert mock_config_entry.error_reason_translation_key == "unload_platforms_failed"
 
 
 @pytest.mark.parametrize(

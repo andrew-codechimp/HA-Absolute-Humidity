@@ -66,7 +66,7 @@ def mock_config_entry(request: pytest.FixtureRequest) -> MockConfigEntry:
 def mock_setup_entry() -> Generator[AsyncMock]:
     """Isolate form tests from sensor setup."""
     with patch(
-        "custom_components.absolute_humidity.async_setup_entry", return_value=True
+        "custom_components.absolute_humidity.async_setup_entry", return_value=None
     ) as mock_setup:
         yield mock_setup
 

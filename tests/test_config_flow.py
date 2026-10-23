@@ -3,6 +3,7 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from custom_components.absolute_humidity.config_flow import ConfigFlowHandler
 from custom_components.absolute_humidity.const import (
     CONF_HUMIDITY_ENTITY_ID,
     CONF_TEMPERATURE_ENTITY_ID,
@@ -136,6 +137,7 @@ async def test_options(
     mock_setup_entry.reset_mock()
     result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
     assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "init"
     options = {
         CONF_TEMPERATURE_ENTITY_ID: "sensor.other_temperature",
         CONF_HUMIDITY_ENTITY_ID: "sensor.other_humidity",
