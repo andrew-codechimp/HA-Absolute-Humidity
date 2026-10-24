@@ -10,14 +10,13 @@ Absolute Humidity Helpers for Home Assistant **2026.11.0.dev0**
 
 ## Overview
 
-Creates a helper that watches a temperature and relative humidity sensor and calculates absolute humidity in **g/m³**.
+Creates helpers that watch a temperature and relative humidity sensor and calculates absolute humidity in **g/m³**.
 
-Optionally select a device during setup or in the helper's options to link the sensor to it. Leave the device empty for a standalone helper. You can change or clear this selection later without replacing the sensor. If the linked device is removed or no longer exists, the helper continues calculating without a device link. Its saved selection remains until you change or clear it in options.
-
+The helper can optionally be added to a device.
 
 ### Attributes
 
-Comfort is assessed from the calculated absolute humidity:
+Comfort ranges:
 
 | Attribute | Value | Absolute humidity |
 | --- | --- | --- |
@@ -27,7 +26,7 @@ Comfort is assessed from the calculated absolute humidity:
 | `comfort` | `humid` | 10 through 12 g/m³ |
 | `comfort` | `very_humid` | Above 12 g/m³ |
 
-Condensation risk is also assessed from the calculated absolute humidity:
+Condensation risk ranges:
 
 | Attribute | Value | Absolute humidity |
 | --- | --- | --- |
@@ -50,10 +49,6 @@ _Please :star: this repo if you find it useful_
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=andrew-codechimp&repository=HA-Absolute-Humidity&category=Integration)
 
 Or search for it within Marketplace if My Home Assistant does not work for you
-
-Restart Home Assistant
-
-In the HA UI go to "Configuration" -> "Devices & services" -> "Helpers" click "+" and select "Absolute Humidity"
 
 ### Manual Installation
 
