@@ -79,7 +79,7 @@ class AbsoluteHumiditySensor(SensorEntity):
     _attr_device_class = SensorDeviceClass.ABSOLUTE_HUMIDITY
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_native_unit_of_measurement = UnitOfDensity.GRAMS_PER_CUBIC_METER
-    _attr_suggested_display_precision = 2
+    _attr_suggested_display_precision = 1
     _attr_translation_key = "absolute_humidity"
 
     def __init__(self, hass: HomeAssistant, entry: AbsoluteHumidityConfigEntry) -> None:
