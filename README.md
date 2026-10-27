@@ -8,7 +8,7 @@
 
 ## Overview
 
-Creates helpers that watch a temperature and relative humidity sensor and calculates absolute humidity in **g/m³**.
+Creates helpers that watch a temperature and relative humidity sensor and calculates absolute humidity in g/m³.
 
 The helper can optionally be added to a device.
 
@@ -33,6 +33,8 @@ Condensation risk ranges:
 | `condensation_risk` | `high` | 12.1 g/m³ and above |
 
 Condensation risk is an estimate from air humidity. Actual condensation depends on surface temperature, which these two sources do not measure. The thresholds are simple indicators, rather than a calculation of surface condensation.
+
+Why absolute humidity? Most sensors offer relative humidity, which is fine for personal comfort indicators. For comparison on when to ventilate comparing absolute humidity is more accurate, either comparing inside to outside, or one area to another.
 
 _Please :star: this repo if you find it useful_
 
