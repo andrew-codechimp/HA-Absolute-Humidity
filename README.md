@@ -34,7 +34,7 @@ Condensation risk ranges:
 
 Condensation risk is an estimate from air humidity. Actual condensation depends on surface temperature, which these two sources do not measure. The thresholds are simple indicators, rather than a calculation of surface condensation.
 
-Why absolute humidity? Most sensors offer relative humidity, which is fine for personal comfort indicators. For comparison on when to ventilate comparing absolute humidity is more accurate, either comparing inside to outside, or one area to another.
+Why absolute humidity? Most humidity sensors report relative humidity, which is useful for assessing comfort alongside temperature. However, relative humidity alone can be misleading when comparing areas at different temperatures. Absolute humidity measures the amount of water vapour per cubic metre of air, making it more useful for comparing moisture levels indoors and outdoors, or between rooms. This can help you decide when ventilation is likely to reduce indoor moisture and, alongside temperature readings, when it may help cool your home.
 
 _Please :star: this repo if you find it useful_
 
