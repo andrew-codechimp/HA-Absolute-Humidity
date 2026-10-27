@@ -46,9 +46,9 @@ _Please :star: this repo if you find it useful_
 
 ### Marketplace
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=andrew-codechimp&repository=HA-Absolute-Humidity&category=Integration)
+[![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=andrew-codechimp&repository=ha-absolute-humidity&category=integration)
 
-Or search for it within Marketplace if My Home Assistant does not work for you
+Or search for it within Marketplace if My Home Assistant does not work for you.
 
 ### Manual Installation
 
@@ -71,9 +71,6 @@ A new Absolute Humidity helper will be available within Settings/Helpers or clic
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
 [commits]: https://github.com/andrew-codechimp/HA-Absolute-Humidity/commits/main
-[hacs]: https://github.com/hacs/integration
-[hacsbadge]: https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge
-[exampleimg]: example.png
 [license-shield]: https://img.shields.io/github/license/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
 [releases]: https://github.com/andrew-codechimp/HA-Absolute-Humidity/releases
