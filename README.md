@@ -1,12 +1,10 @@
-# Absolute Humidity
+# Absolute Humidity helpers for Home Assistant
 
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
 [![Downloads][download-latest-shield]]()
 [![HACS Installs][hacs-installs-shield]]()
 [![License][license-shield]](LICENSE)
-
-Absolute Humidity Helpers for Home Assistant **2026.11.0.dev0**
 
 ## Overview
 
