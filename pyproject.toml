@@ -39,6 +39,12 @@ dev = [
 
 [tool.uv]
 default-groups = ["dev"]
+
+[tool.uv.sources]
+# Keep HA and its test plugin on matching sources until both are published.
+homeassistant = { url = "https://github.com/home-assistant/core/archive/78f84bea56e4ec9b8d7b46e283020cbbe774c220.tar.gz" }
+pytest-home-assistant = { url = "https://github.com/home-assistant/core/archive/78f84bea56e4ec9b8d7b46e283020cbbe774c220.tar.gz", subdirectory = "packages/pytest-home-assistant" }
+
 [tool.ruff]
 target-version = "py314"
 src = ["custom_components/absolute_humidity", "tests"]

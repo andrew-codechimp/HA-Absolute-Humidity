@@ -36,11 +36,6 @@ def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
 
 
 @pytest.fixture(autouse=True)
-def auto_enable_custom_integrations(enable_custom_integrations: None) -> None:
-    """Enable the custom integration loader."""
-
-
-@pytest.fixture(autouse=True)
 def freeze_setup_time(freezer: FrozenDateTimeFactory) -> None:
     """Keep entity timestamps stable in snapshots."""
     freezer.move_to("2026-10-23T12:00:00+00:00")
