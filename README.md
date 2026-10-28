@@ -35,7 +35,7 @@ Condensation risk is an estimate from air humidity. Actual condensation depends 
 
 Why absolute humidity? Most humidity sensors report relative humidity, which is useful for assessing comfort alongside temperature. However, relative humidity alone can be misleading when comparing areas at different temperatures. Absolute humidity measures the amount of water vapour per cubic metre of air, making it more useful for comparing moisture levels indoors and outdoors, or between rooms. This can help you decide when ventilation is likely to reduce indoor moisture and, alongside temperature readings, when it may help cool your home.
 
-_Please :star: this repo if you find it useful_
+_Please ⭐ this repo on [GitHub][repository] if you find it useful_
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/codechimp)
 
@@ -68,6 +68,7 @@ A new Absolute Humidity helper will be available within Settings/Helpers or clic
 
 ---
 
+[repository]: https://github.com/andrew-codechimp/HA-Absolute-Humidity
 [commits-shield]: https://img.shields.io/github/commit-activity/y/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
 [commits]: https://github.com/andrew-codechimp/HA-Absolute-Humidity/commits/main
 [license-shield]: https://img.shields.io/github/license/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
