@@ -1,66 +1,48 @@
 # Absolute Humidity helpers for Home Assistant
 
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
-[![Downloads][download-latest-shield]]()
-[![License][license-shield]](LICENSE)
+Creates helpers that watch a temperature and relative humidity sensor and calculates absolute humidity in g/m³ with attributes for comfort and condensation risk.
 
-## Overview
+_Please ⭐ this repo on [GitHub][repository] if you find it useful._
 
-Creates helpers that watch a temperature and relative humidity sensor and calculates absolute humidity in g/m³.
+_If you want to show your support please_
 
-The helper can optionally be added to a device.
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/codechimp)
+
+<!-- marketplace_exclude:start -->
+Installation instructions, visible by default but excluded with Marketplace.
+<!-- marketplace_exclude:end -->
 
 ### Attributes
 
-Comfort ranges:
+**Comfort**
 
-| Attribute | Value | Absolute humidity |
-| --- | --- | --- |
-| `comfort` | `very_dry` | Below 5 g/m³ |
-| `comfort` | `dry` | 5 to below 7 g/m³ |
-| `comfort` | `comfortable` | 7 to below 10 g/m³ |
-| `comfort` | `humid` | 10 through 12 g/m³ |
-| `comfort` | `very_humid` | Above 12 g/m³ |
+| Value | Absolute humidity |
+| --- | --- |
+| `very_dry` | Below 5 g/m³ |
+| `dry` | 5 to below 7 g/m³ |
+| `comfortable` | 7 to below 10 g/m³ |
+| `humid` | 10 through 12 g/m³ |
+| `very_humid` | Above 12 g/m³ |
 
-Condensation risk ranges:
+**Condensation risk**
 
-| Attribute | Value | Absolute humidity |
-| --- | --- | --- |
-| `condensation_risk` | `low` | Below 10.4 g/m³ |
-| `condensation_risk` | `moderate` | 10.4 to below 12.1 g/m³ |
-| `condensation_risk` | `high` | 12.1 g/m³ and above |
+| Value | Absolute humidity |
+| --- | --- |
+| `low` | Below 10.4 g/m³ |
+| `moderate` | 10.4 to below 12.1 g/m³ |
+| `high` | 12.1 g/m³ and above |
 
 Condensation risk is an estimate from air humidity. Actual condensation depends on surface temperature, which these two sources do not measure. The thresholds are simple indicators, rather than a calculation of surface condensation.
 
 Why absolute humidity? Most humidity sensors report relative humidity, which is useful for assessing comfort alongside temperature. However, relative humidity alone can be misleading when comparing areas at different temperatures. Absolute humidity measures the amount of water vapour per cubic metre of air, making it more useful for comparing moisture levels indoors and outdoors, or between rooms. This can help you decide when ventilation is likely to reduce indoor moisture and, alongside temperature readings, when it may help cool your home.
 
-_Please ⭐ this repo on [GitHub][repository] if you find it useful_
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/codechimp)
-
 ![Helper Creation](https://raw.githubusercontent.com/andrew-codechimp/ha-absolute_humidity/main/images/helper-create.png "Helper Creation")
 
-## Installation
-
-### Marketplace
+### Installation
 
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=andrew-codechimp&repository=ha-absolute-humidity&category=integration)
 
-Or search for it within Marketplace if My Home Assistant does not work for you.
-
-### Manual Installation
-
-<details>
-<summary>Show detailed instructions</summary>
-
-Installation via Marketplace is recommended, but a manual setup is supported.
-
-1. Manually copy custom_components/absolute_humidity folder from latest release to custom_components folder in your config folder.
-1. Restart Home Assistant.
-1. In the HA UI go to "Configuration" -> "Devices & services" -> "Helpers" click "+" and select "Absolute Humidity"
-
-</details>
+Or search for it within Marketplace.
 
 A new Absolute Humidity helper will be available within Settings/Helpers or click the My link to jump straight there
 
@@ -69,9 +51,3 @@ A new Absolute Humidity helper will be available within Settings/Helpers or clic
 ---
 
 [repository]: https://github.com/andrew-codechimp/HA-Absolute-Humidity
-[commits-shield]: https://img.shields.io/github/commit-activity/y/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
-[commits]: https://github.com/andrew-codechimp/HA-Absolute-Humidity/commits/main
-[license-shield]: https://img.shields.io/github/license/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
-[releases]: https://github.com/andrew-codechimp/HA-Absolute-Humidity/releases
-[download-latest-shield]: https://img.shields.io/github/downloads/andrew-codechimp/HA-Absolute-Humidity/latest/total?style=for-the-badge
