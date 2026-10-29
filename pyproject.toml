@@ -27,12 +27,8 @@ Changelog = "https://github.com/andrew-codechimp/HA-Absolute-Humidity/releases"
 
 [dependency-groups]
 dev = [
-    "aiodns",
-    "colorlog",
     "homeassistant==2026.11.0dev0",
     "mypy",
-    "pycares",
-    "pygments",
     "pytest-home-assistant",
     "ruff",
 ]
