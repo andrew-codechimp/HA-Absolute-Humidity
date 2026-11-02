@@ -1,12 +1,12 @@
+<!-- ha-marketplace:exclude-start -->
 # Absolute Humidity helpers for Home Assistant
 
-<!-- ha-marketplace:exclude-start -->
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
 [![Downloads][download-latest-shield]]()
 [![License][license-shield]](LICENSE)
-<!-- ha-marketplace:exclude-end -->
 
+<!-- ha-marketplace:exclude-end -->
 Creates helpers that watch a temperature and relative humidity sensor and calculates absolute humidity in g/m³ with attributes for comfort and condensation risk.
 
 _Please ⭐ this repo on [GitHub][repository] if you find it useful._
