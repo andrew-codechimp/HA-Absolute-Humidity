@@ -163,5 +163,11 @@ exclude = [
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 addopts = "-p no:respx"
+filterwarnings = [
+    # Home Assistant intentionally subclasses aiohttp's application.
+    "ignore:Inheritance class HomeAssistantApplication from web.Application is discouraged:DeprecationWarning:homeassistant.components.http.server",
+    # Backoff uses an asyncio API deprecated in Python 3.14.
+    "ignore:'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16:DeprecationWarning:(backoff._decorator|backoff._async)",
+]
 pythonpath = ["."]
 testpaths = ["tests"]
