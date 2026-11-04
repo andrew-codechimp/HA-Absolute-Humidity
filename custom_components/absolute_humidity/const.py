@@ -6,7 +6,7 @@ from homeassistant.const import Platform
 
 LOGGER: Logger = getLogger(__package__)
 
-MIN_HA_VERSION = "2026.11.0.dev0"
+MIN_HA_VERSION = "2026.11.0"
 
 DOMAIN = "absolute_humidity"
 
