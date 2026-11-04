@@ -21,19 +21,19 @@ _If you want to show your support please_
 
 | Value | Absolute humidity |
 | --- | --- |
-| `very_dry` | Below 5 g/m³ |
-| `dry` | 5 to below 7 g/m³ |
-| `comfortable` | 7 to below 10 g/m³ |
-| `humid` | 10 through 12 g/m³ |
-| `very_humid` | Above 12 g/m³ |
+| very_dry | Below 5 g/m³ |
+| dry | 5 to below 7 g/m³ |
+| comfortable | 7 to below 10 g/m³ |
+| humid | 10 through 12 g/m³ |
+| very_humid | Above 12 g/m³ |
 
 **Condensation risk**
 
 | Value | Absolute humidity |
 | --- | --- |
-| `low` | Below 10.4 g/m³ |
-| `moderate` | 10.4 to below 12.1 g/m³ |
-| `high` | 12.1 g/m³ and above |
+| low | Below 10.4 g/m³ |
+| moderate | 10.4 to below 12.1 g/m³ |
+| high | 12.1 g/m³ and above |
 
 Condensation risk is an estimate from air humidity. Actual condensation depends on surface temperature, which these two sources do not measure. The thresholds are simple indicators, rather than a calculation of surface condensation.
 
