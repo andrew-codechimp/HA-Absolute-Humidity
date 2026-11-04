@@ -48,8 +48,6 @@ Why absolute humidity? Most humidity sensors report relative humidity, which is 
 
 [![Open your Home Assistant instance and open a repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=andrew-codechimp&repository=ha-absolute-humidity&category=integration)
 
-Or search for Absolute Humidity within Marketplace.
-
 A new Absolute Humidity helper will be available within Settings/Helpers or click the My link to jump straight there
 
 [![Open your Home Assistant instance and start setting up a new helper.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=absolute_humidity)
