@@ -1,6 +1,8 @@
 <!-- ha-marketplace:exclude-start -->
 # Absolute Humidity helpers for Home Assistant
 
+⚠️ Early development, use at your own risk.
+
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
 [![Downloads][download-latest-shield]]()
