@@ -4,7 +4,7 @@
         {
             "label": "Tests: All with Coverage",
             "type": "shell",
-            "command": "uv run --no-sync pytest tests --cov=custom_components.absolute_humitidy --cov-report=term-missing --cov-report=html",
+            "command": "uv run --no-sync pytest tests --cov=custom_components.absolute_humidity --cov-report=term-missing --cov-report=html",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
