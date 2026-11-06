@@ -29,16 +29,12 @@ Changelog = "https://github.com/andrew-codechimp/HA-Absolute-Humidity/releases"
 dev = [
     "homeassistant==2026.11.0",
     "mypy",
-    "pytest-home-assistant",
+    "pytest-homeassistant==2026.11.0",
     "ruff",
 ]
 
 [tool.uv]
 default-groups = ["dev"]
-
-[tool.uv.sources]
-# The test plugin is not yet published on PyPI.
-pytest-home-assistant = { url = "https://github.com/home-assistant/core/archive/78f84bea56e4ec9b8d7b46e283020cbbe774c220.tar.gz", subdirectory = "packages/pytest-home-assistant" }
 
 [tool.ruff]
 target-version = "py314"
