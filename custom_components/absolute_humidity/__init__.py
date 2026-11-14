@@ -12,13 +12,14 @@ from awesomeversion.awesomeversion import AwesomeVersion
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import __version__ as HA_VERSION  # noqa: N812
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.exceptions import ConfigEntryError
+from homeassistant.exceptions import ConfigEntryError, HomeAssistantError
 from homeassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
 )
 from homeassistant.helpers.helper_integration import async_handle_source_entity_changes
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.util.json import load_json_object
 
 from .const import (
     CONF_HUMIDITY_ENTITY_ID,
@@ -49,7 +50,40 @@ async def async_setup(
         LOGGER.critical(msg)
         return False
 
+    await async_check_marketplace_installation(hass)
+
     return True
+
+
+async def async_check_marketplace_installation(hass: HomeAssistant) -> None:
+    """Warn when not installed through Marketplace."""
+    if not hass.config_entries.async_entries(DOMAIN):
+        return
+
+    try:
+        storage = await hass.async_add_executor_job(
+            load_json_object,
+            hass.config.path(".storage", "marketplace.repositories"),
+        )
+    except HomeAssistantError:
+        LOGGER.debug("Unable to read Marketplace repositories", exc_info=True)
+        return
+
+    repositories = storage.get("data", {})
+    if not isinstance(repositories, dict):
+        return
+
+    for repository in repositories.values():
+        if not isinstance(repository, dict) or not isinstance(
+            repository.get("installed", False), bool
+        ):
+            return
+        if repository.get("domain") == DOMAIN and repository.get("installed") is True:
+            return
+
+    LOGGER.warning(
+        "Absolute Humidity is manually installed and will not get automatic updates"
+    )
 
 
 async def async_setup_entry(

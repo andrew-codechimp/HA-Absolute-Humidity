@@ -18,16 +18,119 @@ from homeassistant.const import (
     STATE_UNAVAILABLE,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
     issue_registry as ir,
 )
+from homeassistant.setup import async_setup_component
+from homeassistant.util.json import JsonObjectType
 
 from . import setup_integration
 from .const import ENTITY_ID, HUMIDITY_ENTITY_ID, TEMPERATURE_ENTITY_ID
 
 pytestmark = pytest.mark.usefixtures("source_sensors")
+
+
+@pytest.mark.parametrize(
+    ("storage", "expected_warning"),
+    [
+        pytest.param({}, True, id="missing-file"),
+        pytest.param({"data": {}}, True, id="missing-domain"),
+        pytest.param(
+            {"data": {"123": {"domain": DOMAIN, "installed": False}}},
+            True,
+            id="not-installed",
+        ),
+        pytest.param(
+            {"data": {"123": {"domain": DOMAIN}}},
+            True,
+            id="missing-installed-flag",
+        ),
+        pytest.param(
+            {"data": {"123": {"domain": "other", "installed": True}}},
+            True,
+            id="other-integration-installed",
+        ),
+        pytest.param(
+            {"data": {"123": {"domain": DOMAIN, "installed": 1}}},
+            False,
+            id="installed-flag-not-boolean",
+        ),
+        pytest.param(
+            {"data": {"123": {"domain": DOMAIN, "installed": True}}},
+            False,
+            id="installed",
+        ),
+        pytest.param(
+            {
+                "data": {
+                    "123": {"domain": DOMAIN, "installed": False},
+                    "456": {"domain": DOMAIN, "installed": True},
+                }
+            },
+            False,
+            id="installed-second-repository",
+        ),
+        pytest.param({"data": []}, False, id="invalid-repositories"),
+        pytest.param({"data": {"123": None}}, False, id="invalid-repository"),
+    ],
+)
+async def test_marketplace_installation_warning(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    caplog: pytest.LogCaptureFixture,
+    storage: JsonObjectType,
+    expected_warning: bool,
+) -> None:
+    """Warn only when Marketplace does not mark the integration as installed."""
+    mock_config_entry.add_to_hass(hass)
+    with patch(
+        "custom_components.absolute_humidity.load_json_object", return_value=storage
+    ) as load_repositories:
+        assert await async_setup_component(hass, DOMAIN, {})
+
+    load_repositories.assert_called_once_with(
+        hass.config.path(".storage", "marketplace.repositories")
+    )
+    assert (
+        "Absolute Humidity is manually installed and will not get automatic updates"
+        in caplog.text
+    ) is expected_warning
+
+
+async def test_marketplace_read_error(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """A Marketplace read error allows setup without claiming manual installation."""
+    mock_config_entry.add_to_hass(hass)
+    with patch(
+        "custom_components.absolute_humidity.load_json_object",
+        side_effect=HomeAssistantError("Cannot read Marketplace storage"),
+    ) as load_repositories:
+        assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    load_repositories.assert_called_once()
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert "manually installed" not in caplog.text
+
+
+async def test_marketplace_check_without_config_entry(
+    hass: HomeAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Early setup skips Marketplace even when another domain has a config entry."""
+    MockConfigEntry(domain="other").add_to_hass(hass)
+    with patch(
+        "custom_components.absolute_humidity.load_json_object"
+    ) as load_repositories:
+        assert await async_setup_component(hass, DOMAIN, {})
+
+    load_repositories.assert_not_called()
+    assert "manually installed" not in caplog.text
 
 
 @pytest.mark.parametrize("selected_device", ["main", "child"], indirect=True)
