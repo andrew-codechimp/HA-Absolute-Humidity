@@ -19,6 +19,7 @@ from homeassistant.helpers import (
 )
 from homeassistant.helpers.helper_integration import async_handle_source_entity_changes
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.loader import async_get_loaded_integration
 from homeassistant.util.json import load_json_object
 
 from .const import (
@@ -82,7 +83,8 @@ async def async_check_marketplace_installation(hass: HomeAssistant) -> None:
             return
 
     LOGGER.warning(
-        "Absolute Humidity is manually installed and will not get automatic updates"
+        "%s is manually installed and will not get automatic updates",
+        async_get_loaded_integration(hass, DOMAIN).name,
     )
 
 
