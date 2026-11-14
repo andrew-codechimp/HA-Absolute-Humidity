@@ -81,6 +81,12 @@ class AbsoluteHumiditySensor(SensorEntity):
     _attr_native_unit_of_measurement = UnitOfDensity.GRAMS_PER_CUBIC_METER
     _attr_suggested_display_precision = 1
     _attr_translation_key = "absolute_humidity"
+    _unrecorded_attributes = frozenset(
+        {
+            ATTR_COMFORT,
+            ATTR_CONDENSATION_RISK,
+        }
+    )
 
     def __init__(self, hass: HomeAssistant, entry: AbsoluteHumidityConfigEntry) -> None:
         """Initialize the helper's identity and source references."""
