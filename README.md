@@ -3,6 +3,7 @@
 
 [![GitHub Activity][commits-shield]][commits]
 [![Downloads][download-latest-shield]]()
+[![Installs][marketplace-installs-shield]][marketplace-install]
 [![License][license-shield]](LICENSE)
 
 <!-- ha-marketplace:exclude-end -->
@@ -59,4 +60,5 @@ A new Absolute Humidity helper will be available within Settings/Helpers or clic
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/andrew-codechimp/HA-Absolute-Humidity.svg?style=for-the-badge
 [download-latest-shield]: https://img.shields.io/github/downloads/andrew-codechimp/HA-Absolute-Humidity/latest/total?style=for-the-badge
-[hacs-installs-shield]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Flauwbier.nl%2Fhacs%2Fabsolute_humidity&style=for-the-badge
+[marketplace-installs-shield]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fanalytics.home-assistant.io%2Fcustom_integrations.json&query=%24.absolute_humidity.total&style=for-the-badge&label=Marketplace%20installs
+[marketplace-install]: https://my.home-assistant.io/redirect/marketplace_repository/?owner=andrew-codechimp&repository=absolute_humidity&category=integration
